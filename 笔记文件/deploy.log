@@ -1,0 +1,14 @@
+mvn deploy:deploy-file -Durl=http://192.168.1.34:8081/repository/maven-public/ -DrepositoryId=maven-public -Dfile=F:\maven\repository\com\gdws\ssoclient\1.0.0\ssoclient-1.0.0.jar -DgroupId=com.gdws -DartifactId=ssoclinet -Dversion=1.0.0 -Dpackaging=jar
+                       
+mvn deploy:deploy-file -Durl=http://192.168.1.34:8081/repository/maven-releases/ -DrepositoryId=maven-releases -Dfile=F:\mysql-connector-java-5.1.21.jar -DgroupId=com.gdws -DartifactId=mysql-connector -Dversion=5.1.21 -Dpackaging=jar
+
+
+[-DpomFile=your-pom.xml] \
+[-DgroupId=org.some.group] \
+[-DartifactId=your-artifact] \
+[-Dpackaging=jar] \
+[-Dclassifier=test] \
+[-DgeneratePom=true] \
+[-DgeneratePom.description="My Project Description"] \
+[-DrepositoryLayout=legacy] \
+[-DuniqueVersion=false]

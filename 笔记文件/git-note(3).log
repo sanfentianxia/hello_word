@@ -1,0 +1,126 @@
+﻿注-1：[]表示可选指令
+注-2：fileName 表示要添加的文件名
+
+#####git 指令学习笔记#####
+
+1、设置git用户名和邮箱
+	$ git config [--global] user.name "your name"
+	$ git config [--global] user.email "XXX@MM.com"
+	注：--global 参数表示这台机器上所有的git仓库都使用这个配置
+
+2、创建仓库
+	$ git init
+
+3、添加文件/修改到仓库暂存区
+	$ git add fileName 添加名为filename的文件到暂存区
+	$ git add . 监控工作区，将新文件（untracked file）和修改添加到暂存区,不包括删除的文件
+	$ git add -u 仅监控已添加到暂存区的文件，将其修改添加到暂存区，不会提交新文件（untracked file），包括删除的文件
+	$ git add -A/--all 添加所有变化
+	
+4、提交暂存区文件/修改到版本库
+	$ git commit -m "message"
+
+5、查看当前仓库状态
+	$ git status
+
+6、查看文件修改内容
+	$ git diff fileName
+
+7、查看提交日志（由近到远）
+	$ git log [--pretty=oneline]
+	注：--pretty=oneline参数表示简化显示
+	注：退出日志按q键
+	git log --graph 可以看到分支合并图
+
+8、回退
+	$ git reset --hard HEAD^/commit id
+	注：HEAD^ 回退到上一次提交版本，HEAD^^ 回退到再上一次提交版本， HEAD~n 回退到前n次提交版本 
+		commit id 每次提交的版本号，使用这个能快速回退到某个提交版本
+	$ git reflog 查看每一次操作命令
+		
+9、撤销修改
+	git reset HEAD file
+	注：把暂存区的修改撤销掉（unstage），重新放回工作区
+	$ git checkout -- filename
+	注：将文件回退到最近的一次commit或add；
+		也可以撤销删除，只要文件只是在工作区中删除，版本库中还在就能撤销删除
+
+10、删除文件
+	$ rm filename 删除工作区文件； git checkout -- filename可撤销删除
+	$ git rm filename 删除工作区文件，并添加修改到暂存区；git checkout HEAD -- filename或git checkout HEAD filename可撤销删除
+
+11、生成SSH key
+	$ ssh-keygen -t rsa -C "gxdevil@126.com"
+	例：
+	Generating public/private rsa key pair.
+	Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa):
+	Created directory '/c/Users/Administrator/.ssh'.
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
+	Your identification has been saved in /c/Users/Administrator/.ssh/id_rsa.
+	Your public key has been saved in /c/Users/Administrator/.ssh/id_rsa.pub.
+	The key fingerprint is:
+	SHA256:0/UIkjPk4yHlw/ORHDwVbdNvkrxLtjir4v6vxLlcmlw gxdevil@126.com
+	The key's randomart image is:
+	+---[RSA 2048]----+
+	|        o...oo . |
+	|       * ooo  + .|
+	|      . & =..o o.|
+	|       o @ + o+ o|
+	|        S o . .+ |
+	|         o .  +  |
+	|          + E+ o |
+	|        .+ *o o  |
+	|       oooX+oo   |
+	+----[SHA256]-----+
+
+12、关联远程库（以gitHunb为例）
+	$ git remote add origin git@server-name:path/repo-name.git
+
+13、推送
+	$ git push -u origin master 第一次推送master分支所有内容
+	$ git push origin master 推送master分支所有内容
+
+14、克隆远程库（以gitHunb为例）
+	$ git clone git@server-name:path/repo-name.git
+	注：git@server-name:path/repo-name.git为gitHumb上的地址
+
+15、分支创建、切换
+	$ git branch 查看项目所有分支，当前所在分支前用*标注
+	$ git branch dev 创建dev分支
+	$ git checkout dev 切换到dev分支
+	$ git checkout -b dev 创建并切换到dev分支
+
+16、分支合并
+	$ git merge dev 合并dev分支到当前分支
+
+17、删除分支
+	$ git branch -d dev 删除本地dev分支
+	$ git push origin :dev 删除远程dev分支
+
+18、远程分支
+	$ git push --set-upstream origin br 将本地新建的br分支推送的远程
+	$ git branch -r 查看远程分支
+	$ git checkout -b local_br remote_br 以远程分支remote_br为模板，创建本地分支local_br,并切换到当前分支（拉取远程分支到本地）
+	$ git fetch origin remote_br:local_br 拉取远程分支到本地，但不切换
+
+19、标签创建、查看
+	$ git tag 查看所有标签
+	$ git tag tagname 添加名为tagname的标签，该标签默认打在最新的commit上
+	$ git tag tagname commit_id 将名为tagname的标签打在commit id为 commit_id的提交上
+	$ git tag -a tagname -m "message" commit_id 在commit_id提交上打上标签tagname，并加上标签信息message
+	$ git show tagname 显示标签名为tagname的标签的详细信息
+
+20、标签操作
+	$ git push origin tagname 推送tagname标签到远程
+	$ got push origin --tags 推送全部未推送的标签到远程
+	$ git tag -d tagname 删除本地名为tagname的标签
+	$ git push origin :refs/tags/tagname 删除远程名为tagname的标签
+
+21、配置别名
+	$ git config --global alias.别名 原命令
+	例：
+	$ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+22、git锁死解决
+        cd .git
+	rm index.lock
