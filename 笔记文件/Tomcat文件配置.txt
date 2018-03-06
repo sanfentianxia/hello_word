@@ -1,0 +1,7 @@
+<Host appBase="webroot" autoDeploy="true" name="localhost" unpackWARs="true">
+
+  <Context docBase="../webapps/crm" path="/" reloadable="true" source="org.eclipse.jst.jee.server:crm"/>
+</Host>
+
+docBase 项目绝对路径或者相对于 appBase路径。
+path  项目访问端口号后的路径 
